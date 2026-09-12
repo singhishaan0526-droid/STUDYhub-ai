@@ -21,7 +21,7 @@ async function runTests() {
 
   try {
     // Test 1: Notes Generation
-    console.log("\n1️⃣ Testing Notes Generation (gemini-2.5-flash)...");
+    console.log("\n1️⃣ Testing Notes Generation (gemini-3.6-flash)...");
     const notes = await generateNotesFromGemini("10", "Science", "Chemical Reactions and Equations");
     console.log("✅ Notes Generated Successfully!");
     console.log("   - Summary length:", notes.chapterSummary?.length || 0, "chars");

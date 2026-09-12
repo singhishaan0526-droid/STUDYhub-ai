@@ -10,10 +10,21 @@ const getAI = () => {
   return _ai;
 };
 
-const MODEL = 'gemini-2.5-flash';
+const MODEL = 'gemini-3.6-flash';
 
 const safeErrorMessage = (error) =>
   (error?.message || String(error)).replace(/key=[^&\s"']*/gi, 'key=REDACTED');
+
+const cleanJSON = (text) => {
+  if (!text) return '{}';
+  let cleaned = text.trim();
+  if (cleaned.startsWith('```json')) {
+    cleaned = cleaned.replace(/^```json\s*/i, '').replace(/\s*```$/, '');
+  } else if (cleaned.startsWith('```')) {
+    cleaned = cleaned.replace(/^```\s*/, '').replace(/\s*```$/, '');
+  }
+  return cleaned;
+};
 
 const generateJSON = async (prompt, label) => {
   try {
@@ -22,7 +33,7 @@ const generateJSON = async (prompt, label) => {
       contents: prompt,
       config: { responseMimeType: 'application/json' },
     });
-    return JSON.parse(response.text);
+    return JSON.parse(cleanJSON(response.text));
   } catch (error) {
     const safe = safeErrorMessage(error);
     console.error(`Gemini ${label} error:`, safe);

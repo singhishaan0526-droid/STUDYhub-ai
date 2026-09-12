@@ -180,7 +180,7 @@ export default function DoubtAssistant() {
                 <h1 className="text-xl font-bold flex items-center gap-2">
                   Doubt Assistant
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-400 border border-orange-500/30">
-                    Gemini 2.5 Flash
+                    Gemini 3.6 Flash
                   </span>
                 </h1>
                 <p className="text-sm text-gray-400">CBSE / NCERT AI Tutor with Multimodal Vision & Streaming</p>
@@ -355,7 +355,7 @@ export default function DoubtAssistant() {
           <div className="text-center mt-3">
             <span className="text-xs text-gray-500 flex items-center justify-center gap-1">
               <Sparkles className="h-3 w-3 text-orange-400" />
-              Powered by Google Gemini 2.5 Flash — real-time streaming & vision enabled.
+              Powered by Google Gemini 3.6 Flash — real-time streaming & vision enabled.
             </span>
           </div>
         </div>
