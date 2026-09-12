@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize');
+const mongoSanitize = require('@exortek/express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const app = express();
 
@@ -16,8 +16,10 @@ app.use(cors({
 
 // Body parser with payload limit
 app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
 // Data sanitization against NoSQL query injection
+// Safely handled by @exortek/express-mongo-sanitize in Express 5 without manual mutation
 app.use(mongoSanitize());
 
 // Global rate limiter
@@ -29,6 +31,11 @@ const globalLimiter = rateLimit({
   legacyHeaders: false,
 });
 app.use('/api', globalLimiter);
+
+// Health check route for Render
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', service: 'StudyHub AI Backend' });
+});
 
 const routes = [
   ['/api/auth',          './routes/authRoutes'],
@@ -45,4 +52,11 @@ for (const [path, route] of routes) {
   app.use(path, require(route));
 }
 
+// Global error handler
+app.use((err, req, res, _next) => {
+  console.error('Unhandled error:', err.stack || err.message);
+  res.status(500).json({ message: 'Internal server error' });
+});
+
 module.exports = app;
+
