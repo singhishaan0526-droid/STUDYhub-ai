@@ -19,6 +19,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Proactively pre-warm backend (helps Render free-tier cold starts)
+    API.get('/health').catch(() => {});
+
     const initAuth = async () => {
       try {
         const stored = authService.getCurrentUser();

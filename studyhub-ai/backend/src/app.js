@@ -27,9 +27,9 @@ const globalLimiter = rateLimit({
 });
 app.use('/api', globalLimiter);
 
-// Health check route for Render
-app.get('/', (req, res) => {
-  res.json({ status: 'ok', service: 'StudyHub AI Backend' });
+// Health check routes for Render / Uptime monitors
+app.get(['/', '/api/health'], (req, res) => {
+  res.json({ status: 'ok', service: 'StudyHub AI Backend', timestamp: new Date().toISOString() });
 });
 
 // Routes
