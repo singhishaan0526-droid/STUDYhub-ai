@@ -15,6 +15,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@exortek/express-mongo-sanitize": "^3.0.1",
     "@google/genai": "^2.14.0",
     "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
