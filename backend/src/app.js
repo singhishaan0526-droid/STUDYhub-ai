@@ -2,7 +2,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
-const mongoSanitize = require('@exortek/express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 const app = express();
 
@@ -18,10 +17,6 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Data sanitization against NoSQL query injection
-// Safely handled by @exortek/express-mongo-sanitize in Express 5 without manual mutation
-app.use(mongoSanitize());
-
 // Global rate limiter
 const globalLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -34,7 +29,7 @@ app.use('/api', globalLimiter);
 
 // Health check route for Render
 app.get('/', (req, res) => {
-  res.json({ status: 'ok', service: 'StudyHub AI Backend' });
+  res.json({ status: 'ok', service: 'StudyHub AI Backend', database: 'Supabase' });
 });
 
 const routes = [
@@ -59,4 +54,3 @@ app.use((err, req, res, _next) => {
 });
 
 module.exports = app;
-
