@@ -43,35 +43,62 @@ const generateJSON = async (prompt, label) => {
 
 const generateNotesFromGemini = (class_level, subject, chapter) =>
   generateJSON(`
-You are an expert CBSE/NCERT curriculum author and educator.
-Generate detailed, highly structured study notes for:
+You are a senior CBSE/NCERT curriculum author writing a complete reference textbook chapter.
+Generate FULL, DETAILED, TOPIC-WISE chapter notes (not a summary) for:
 Class: ${class_level}
 Subject: ${subject}
 Chapter: ${chapter}
 
-Follow official NCERT textbook concepts, key formulas, chemical equations, historical dates, or core principles as applicable.
+CRITICAL INSTRUCTIONS:
+1. Break the chapter into ALL its individual topics/sub-topics as they appear in the NCERT textbook.
+2. For EACH topic, write a thorough explanation (150-300 words minimum) covering the full concept, not just definitions.
+3. Include all relevant formulas, chemical equations, laws, theorems, diagrams descriptions, numerical examples, historical context, or case studies as applicable.
+4. Cover EVERY topic in the chapter — do NOT skip any section. A student should be able to study ONLY from these notes and cover the entire chapter.
+5. Include at least 6-10 topics for a full chapter.
+6. Each topic must have detailed "notes" (multi-paragraph explanation), "keyPoints" (exam-critical bullets), and optionally "formulas" and "diagrams".
 
 You MUST return the output ONLY as a valid JSON object matching the exact structure below, with no markdown formatting outside the JSON, no backticks, and no extra text.
 
 {
-  "chapterSummary": "Comprehensive summary of the chapter aligned with CBSE curriculum (2-3 structured paragraphs).",
-  "importantPoints": [
-    "Key point aligned with NCERT textbook syllabus",
-    "High-yield point frequently tested in CBSE Board Exams"
-  ],
-  "keyConcepts": [
-    { 
-      "concept": "Name of concept / core theory", 
-      "description": "Clear explanation including formulas, laws, or diagrams reference where applicable." 
+  "chapterTitle": "${chapter}",
+  "chapterOverview": "Brief 2-3 line overview of what this chapter covers and its importance in the CBSE syllabus.",
+  "topics": [
+    {
+      "topicNumber": 1,
+      "topicTitle": "Name of Topic / Sub-topic",
+      "notes": "Full detailed explanation of the topic (150-300 words). Cover the concept thoroughly with examples, real-world applications, and NCERT-aligned content. Use multiple paragraphs if needed. This should read like a textbook section, not a summary.",
+      "keyPoints": [
+        "Exam-critical point 1 that students must remember",
+        "Exam-critical point 2 with specific values/facts"
+      ],
+      "formulas": [
+        {
+          "name": "Formula / Equation / Law name",
+          "expression": "The actual formula, chemical equation, or mathematical expression",
+          "description": "When and how to use this formula, with variable meanings"
+        }
+      ],
+      "diagrams": [
+        {
+          "title": "Diagram / Figure name",
+          "description": "Detailed text description of what the diagram shows and its significance"
+        }
+      ]
     }
   ],
   "importantDefinitions": [
-    { 
-      "term": "NCERT Key Term", 
-      "meaning": "Exact exam-ready definition with SI units or key terminology required by CBSE marking schemes." 
+    {
+      "term": "NCERT Key Term",
+      "meaning": "Precise exam-ready definition with SI units or key terminology as per CBSE marking schemes."
     }
   ],
-  "quickRevisionNotes": "Bulletproof 5-minute revision summary for last-minute exam prep."
+  "frequentlyAskedQuestions": [
+    {
+      "question": "Common board exam question from this chapter",
+      "answer": "Model answer in CBSE marking scheme format (concise but complete)"
+    }
+  ],
+  "quickRevisionNotes": "Comprehensive bullet-point revision covering all major concepts, formulas, and facts from every topic in the chapter. This should be detailed enough for a 10-minute final revision before the exam."
 }
 `, 'Notes');
 
