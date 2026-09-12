@@ -55,7 +55,7 @@ for (const [path, route] of routes) {
 // Global error handler
 app.use((err, req, res, _next) => {
   console.error('Unhandled error:', err.stack || err.message);
-  res.status(500).json({ message: 'Internal server error' });
+  res.status(500).json({ message: 'Internal server error: ' + err.message, stack: err.stack });
 });
 
 module.exports = app;
